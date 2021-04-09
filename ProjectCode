@@ -1,0 +1,103 @@
+using System;
+class project2{
+    
+    static void Main(){
+        BS();
+  }
+  
+  static void BS(){
+  
+  //Enter in code for user to enter in inputs for options
+  }
+
+   }
+   Class BSMOption
+   {
+   
+   
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   sealed class RandLib
+{
+    private Random r;
+    public RandLib()
+    {
+        r = new Random();
+    }
+    public double NextDouble()
+    {
+        return r.NextDouble();
+    }
+    public double NextDouble(double b)
+    {
+        if (b == 0.0) return 0.0;
+        if (b < 0.0) return NextDouble(b, 0.0);
+        return b * r.NextDouble();
+}
+    public double NextDouble(double a, double b)
+    {
+         if (b == a) return a;
+         if (b < a) return NextDouble(b, a);
+         return a + (b - a) * r.NextDouble();
+}
+
+public double NextExponential()
+{
+    double x = 1.0 - r.NextDouble();
+    return -Math.Log(x);
+}
+public double NextNormal()
+{
+    double U = 1.0;
+    double V = 1.0;
+    double S = (U * U) + (V * V);
+    while ((S > 1.0) || (S == 0.0))
+    {
+        U = 2.0 * r.NextDouble() - 1.0;
+        V = 2.0 * r.NextDouble() - 1.0;
+        S = (U * U) + (V * V);
+    }
+    double tmp = Math.Sqrt(-2.0 * Math.Log(S) / S);
+    double X = U * tmp;
+    double Y = V * tmp;  // not used, wasted
+    return X;
+}
+public double NextNormal(double mu, double sigma)
+{
+    return (mu + sigma * NextNormal());
+}
+
+} }
+public static double ExponentialPDF(double x)
+{
+    if (x <= 0.0) return 0.0;
+    return Math.Exp(-x);
+}
+public static double ExponentialCDF(double x)
+{
+    if (x <= 0.0) return 0.0;
+    return 1.0 - Math.Exp(-x);
+}
+public static double NormalPDF(double x)
+{
+    return Math.Exp(-0.5 * x * x) / Math.Sqrt(2.0 * Math.PI);
+}
+public static double NormalCDF(double x)
+{
+if (x == 0.0) return 0.5;
+if (x < 0.0) return 1.0 - NormalCDF(-x);
+double[] b = { 0.2316419, 0.319381530, -0.356563782,
+               1.781477937, -1.821255978, 1.330274429 };
+double t = 1.0 / (1.0 + b[0] * x);
+double sum = t * (b[1] + t * (b[2] + t * (b[3] + t * (b[4] + t * (b[5])))));
+double Phi = 1.0 - NormalPDF(x) * sum;
+return Phi;
+}
+}
