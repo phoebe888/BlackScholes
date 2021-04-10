@@ -71,7 +71,101 @@ class project2{
    }
    
    
-   
+   // method to calculate delta : The first derivative of the option price with respect to the underlying.
+        public double delta()
+        {
+            if (Option.Equals('c'))
+            {
+                double delta_ = NormalCDF(d1());
+                return delta_;
+            }
+            else if (Option.Equals('p'))
+            {
+                double delta_ = NormalCDF(d2());
+                return delta_;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // method to calculate gamma : The second derivative of the option price wrt the underlying stock. These are equal for puts and calls 
+        public double gamma()
+        {
+            if (Option.Equals('c'))
+            {
+                double gamma_ = NormalCDF(d1()) / (S1 * Vol * Math.Sqrt(T1));
+                return gamma_;
+            }
+            else if (Option.Equals('p'))
+            {
+                double gamma_ = NormalCDF(d2()) / (S1 * Vol * Math.Sqrt(T1));
+                return gamma_;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // method to calculate theta : The partial with respect to time-to-maturity. 
+        public double theta()
+        {
+            if (Option.Equals('c'))
+            {
+                double theta_ = -((NormalCDF(d1()) * S1 * Vol) / (2.0 * Math.Sqrt(T1))) - R * K1 * Math.Exp(-R * T1) * NormalCDF(d2());
+                return theta_;
+            }
+            else if (Option.Equals('p'))
+            {
+                double theta_ = -((NormalCDF(d1()) * S1 * Vol) / (2.0 * Math.Sqrt(T1))) - R * K1 * Math.Exp(-R * T1) * NormalCDF(-d2());
+                return theta_;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // method to calculate vega : The partial with respect to volatility. 
+        public double vega()
+        {
+            if (Option.Equals('c'))
+            {
+                double vega_ = S1 * T1 * NormalCDF(d1());
+                return vega_;
+            }
+            else if (Option.Equals('p'))
+            {
+                double vega_ = S1 * T1 * NormalCDF(d1());
+                return vega_;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // method to calculate rho : The partial with respect to the interest rate. 
+        public double rho()
+        {
+            if (Option.Equals('c'))
+            {
+                double rho_ = K1 * T1 * Math.Exp(-R * T1) * NormalCDF(d2());
+                return rho_;
+            }
+            else if (Option.Equals('p'))
+            {
+                double rho_ = -K1 * T1 * Math.Exp(-R * T1) * NormalCDF(-d2());
+                return rho_;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
    
    
    
